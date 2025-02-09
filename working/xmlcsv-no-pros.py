@@ -4,12 +4,20 @@ from lxml import etree
 import time
 from datetime import datetime, timedelta
 
-def read_excel_large(file_path, output_csv):
+def read_excel_large(file_path, sheet_name, output_csv):
     with zipfile.ZipFile(file_path, 'r') as zip_data:
         # ZIP内のファイルを確認
         file_list = zip_data.namelist()
-        if 'xl/worksheets/sheet1.xml' not in file_list:
-            raise FileNotFoundError("sheet1.xml が見つかりません")
+
+        # 指定されたシート名に対応するファイルを探す
+        sheet_file = None
+        for file in file_list:
+            if file.startswith('xl/worksheets/') and file.endswith(sheet_name + '.xml'):
+                sheet_file = file
+                break
+
+        if sheet_file is None:
+            raise FileNotFoundError(f"{sheet_name}.xml が見つかりません")
 
         # `sharedStrings.xml` を読み込む（存在する場合のみ）
         shared_strings = []
@@ -18,8 +26,8 @@ def read_excel_large(file_path, output_csv):
             shared_root = etree.XML(shared_data)
             shared_strings = [s.text for s in shared_root.findall('.//{*}si/{*}t')]
 
-        # `sheet1.xml` をストリーム処理で読み込む
-        with zip_data.open('xl/worksheets/sheet1.xml') as f, open(output_csv, 'w', newline='', encoding='utf-8') as csv_file:
+        # 指定されたシートのXMLファイルをストリーム処理で読み込む
+        with zip_data.open(sheet_file) as f, open(output_csv, 'w', newline='', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
 
             context = etree.iterparse(f, events=('end',), tag='{*}row')
@@ -36,7 +44,7 @@ def read_excel_large(file_path, output_csv):
                             value = shared_strings[int(value)]
                         else:
                             # 数字（シリアル値）の場合
-                            pass
+                            pass  # そのまま
                     else:
                         value = ''
 
@@ -49,12 +57,13 @@ def read_excel_large(file_path, output_csv):
 
 # 実行
 excel_file = "input_file_large.xlsx"
+sheet_name = "sheet1"  # シート名を指定
 csv_output_file = "output.csv"
 
 time_start = time.time()
 print("<処理開始>")
 
-read_excel_large(excel_file, csv_output_file)
+read_excel_large(excel_file, sheet_name, csv_output_file)
 
 time_end = time.time() - time_start
 print("<処理時間> ", time_end)

@@ -1,0 +1,38 @@
+input_file_lerge.xlsxを読み込む時間を計測
+
+【WINDOWS　PC】
+
+(1)openpyxl
+xmlgemini_t.py, 34.721498012542725, 2025/2/8, lxml Gemini
+openpy_t.py, 40.442883014678955, 2025/2/9, 日付をシリアル値から%Y-%m-%dに修正。
+openpy_b.py, 42.63048005104065, 2025/2/9, GitHubの提案で修正したが遅い。削除。
+
+(2)openpyxl(NG)
+sumopenpy_t.py, 58.795976400375366, 2025/2/8, openpylx ChatGPT
+
+(3)pandas
+sumpandas_t.py, 38.283395, 2025/2/9, pandas ChatGPT
+
+(4)lxml
+xmlzip_t.py, 35.07640027999878 , 2025/2/8, lxml + zipfile ChatGPT 日付が文字化けする。(シリアル値）
+xmlcsv.py, 48.86519241333008, 2025/2/9, 日付をシリアル値から%Y-%m-%dに修正。遅くなった。変換に時間がかかる。。。
+
+【Mac mini】
+
+エクセルをmac miniで開くと日付が4/1/24(%m%d%Y)に見える。
+同じエクセルをwindows pcで開くと日付が2024/4/1(%Y%m%d)であった。
+
+(1)openpyxl
+xmlgemini_t.py, 15.514501094818115, 2025/2/8, プログラム名をopenpy.pyに変更。
+openpy_t.py, 16.43720006942749, 2025/2/9, 日付をシリアル値から%Y-%m-%dに修正。
+
+(2)openpyxl(作りが悪い)
+sumopenpy_t.py, 30.26924967765808, 2025/2/8, 高速化対象外 
+
+(3)pandas
+sumpandas_t.py, 17.578052, 2025/2/8, 比較の基準
+
+(4)lxml
+xmlzip_t.py, 15.555588960647583, 2025/2/8, 日付がシリアル値に文字化けする。
+xmlcsv.py, 15.354114055633545, 2025/2/9, これが最速。
+Xmlcsv-no-pros,py, 12.76175594329834, 2025/2/9, 日付をシリアル値のままにしたタイプで最速。
