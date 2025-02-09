@@ -37,12 +37,14 @@ def read_excel_large(file_path, output_csv):
                         else:
                             # 数字（シリアル値）の場合
                             try:
-                                # シリアル値を日付に変換
-                                excel_date = datetime(1899, 12, 30) + timedelta(days=int(value))
-
-                                # 「作業日」列（1列目）を仮定して変換
-                                if len(row_data) == 0:  # 1列目（作業日）の処理
+                                # row_dataが空の場合(1列目「作業日」列の場合)は日付に変換
+                                if len(row_data) == 0:
+                                    # print("row_data=",row_data)
+                                    # シリアル値を日付に変換
+                                    excel_date = datetime(1899, 12, 30) + timedelta(days=int(value))
                                     value = excel_date.strftime('%Y-%m-%d')  # YYYY-MM-DD形式に変換
+                                else:
+                                    pass # 2列目以降、データが数字であってもそのまま
                             except ValueError:
                                 pass  # 日付として変換できない場合はそのまま
                     else:
