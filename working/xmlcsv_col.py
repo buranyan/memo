@@ -64,7 +64,7 @@ def read_excel_large(file_path, sheet_name, output_csv, selected_columns):
 excel_file = "input_file_large.xlsx"
 sheet_name = "sheet1"
 csv_output_file = "output.csv"
-selected_columns = [1]  # 2, 3, 5列目を選択（0始まりで考える）
+selected_columns = [1,2,3,4,5]  # 2, 3, 5列目を選択（0始まりで考える）
 
 time_start = time.time()
 print("<処理開始>")

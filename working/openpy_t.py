@@ -44,8 +44,11 @@ def read_excel_optimized(excel_file, sheet_name, csv_file):
         return
 
 # 使用例
-excel_file = input("エクセルファイル名を入力してください: ")
-sheet_name = input("シート名を入力してください: ")
+# excel_file = input("エクセルファイル名を入力してください: ")
+# sheet_name = input("シート名を入力してください: ")
+excel_file = "input_file_large.xlsx"
+sheet_name = "Sheet1"
+
 csv_file = excel_file.replace('.xlsx', '.csv')
 
 time_start = time.time()
