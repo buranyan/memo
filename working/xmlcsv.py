@@ -32,15 +32,19 @@ def read_excel_large(file_path, output_csv):
                     if value_elem is not None:
                         value = value_elem.text
                         if cell_type == 's' and value.isdigit():
+                            # 文字列データの処理（Shared Strings）
                             value = shared_strings[int(value)]
-                        # 日付型の場合の処理を修正
-                        elif cell.get('s') == '1' or (cell_type == 'n' and cell.find('{*}v') is not None and value.isdigit()):
+                        else:
+                            # 数字（シリアル値）の場合
                             try:
-                                # XMLからdatetime型に変換
+                                # シリアル値を日付に変換
                                 excel_date = datetime(1899, 12, 30) + timedelta(days=int(value))
-                                value = excel_date.strftime('%Y-%m-%d')
+
+                                # 「作業日」列（1列目）を仮定して変換
+                                if len(row_data) == 0:  # 1列目（作業日）の処理
+                                    value = excel_date.strftime('%Y-%m-%d')  # YYYY-MM-DD形式に変換
                             except ValueError:
-                                pass #日付として変換できない場合はそのまま
+                                pass  # 日付として変換できない場合はそのまま
                     else:
                         value = ''
 
