@@ -28,14 +28,15 @@ def read_excel_large(file_path, sheet_name, output_csv):
             buffer_size = 50000  # メモリ管理のためバッファサイズを調整
             for row_index, (_, row) in enumerate(context, start=1):
                 row_data = []
-                for cell in row.iterfind('{*}c'):  # `.find()` ではなく `.iterfind()` を使用
+                for cell in row.iterfind('{*}c'):
                     value_elem = cell.find('{*}v')
                     cell_type = cell.get('t')
 
                     if value_elem is not None:
                         value = value_elem.text
                         if cell_type == 's' and value.isdigit():
-                            value = shared_strings.get(int(value), '')
+                            index = int(value)
+                            value = shared_strings.get(index, f"[ERR: {index}]")  # エラー処理追加
                     else:
                         value = ''
 
@@ -48,7 +49,6 @@ def read_excel_large(file_path, sheet_name, output_csv):
                     writer.writerows(buffer)
                     buffer.clear()  # メモリ解放
                     csv_file.flush()
-                    # print(f"{row_index} 行処理完了...")
 
                 row.clear()  # メモリ解放
 

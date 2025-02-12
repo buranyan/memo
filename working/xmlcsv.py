@@ -24,13 +24,13 @@ def read_excel_large(file_path, sheet_name, output_csv):
         if 'xl/sharedStrings.xml' in file_list:
             shared_data = zip_data.read('xl/sharedStrings.xml')
             shared_root = etree.XML(shared_data)
-            shared_strings = [s.text for s in shared_root.findall('.//{*}si/{*}t')]
+            shared_strings = [s.text if s is not None else '' for s in shared_root.findall('.//{*}si/{*}t')]
 
         # 指定されたシートのXMLファイルをストリーム処理で読み込む
         with zip_data.open(sheet_file) as f, open(output_csv, 'w', newline='', encoding='utf-8') as csv_file:
             writer = csv.writer(csv_file)
-
             context = etree.iterparse(f, events=('end',), tag='{*}row')
+            
             for _, row in context:
                 row_data = []
                 for cell in row.findall('.//{*}c'):
@@ -40,16 +40,17 @@ def read_excel_large(file_path, sheet_name, output_csv):
                     if value_elem is not None:
                         value = value_elem.text
                         if cell_type == 's' and value.isdigit():
-                            # 文字列データの処理（Shared Strings）
-                            value = shared_strings[int(value)]
-                        else:
-                            # 数字（シリアル値）の場合
-                            pass  # そのまま
+                            index = int(value)
+                            if 0 <= index < len(shared_strings):
+                                value = shared_strings[index]
+                            else:
+                                value = f"[ERR: {index}]"  # エラー値の可視化
+                        # 数字（シリアル値）の場合はそのまま
                     else:
                         value = ''
 
                     row_data.append(value)
-
+                
                 writer.writerow(row_data)
                 del row
 
@@ -66,4 +67,4 @@ print("<処理開始>")
 read_excel_large(excel_file, sheet_name, csv_output_file)
 
 time_end = time.time() - time_start
-print("<処理時間> ", time_end)
+print("<処理時間>", time_end)
