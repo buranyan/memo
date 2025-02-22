@@ -15,7 +15,7 @@ def excel_to_csv_fast(excel_path, sheet_name):
         df["作業日"] = df["作業日"].dt.strftime("%Y/%m/%d")
 
         # CSVファイルとして保存
-        df.to_csv(csv_path, index=False, encoding="utf-8")
+        df.to_csv(csv_path, index=False, encoding="utf-8-sig")
 
         print(f"{csv_path} に変換が完了しました。")
     except FileNotFoundError:

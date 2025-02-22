@@ -27,7 +27,7 @@ def read_excel_large(file_path, sheet_name, output_csv):
             shared_strings = [s.text if s is not None else '' for s in shared_root.findall('.//{*}si/{*}t')]
 
         # 指定されたシートのXMLファイルをストリーム処理で読み込む
-        with zip_data.open(sheet_file) as f, open(output_csv, 'w', newline='', encoding='utf-8') as csv_file:
+        with zip_data.open(sheet_file) as f, open(output_csv, 'w', newline='', encoding='utf-8-sig') as csv_file:
             writer = csv.writer(csv_file)
             context = etree.iterparse(f, events=('end',), tag='{*}row')
             
@@ -59,7 +59,7 @@ def read_excel_large(file_path, sheet_name, output_csv):
 # 実行
 excel_file = "input_file_large.xlsx"
 sheet_name = "sheet1"  # シート名を指定
-csv_output_file = "output.csv"
+csv_output_file = "out_list.csv"
 
 time_start = time.time()
 print("<処理開始>")

@@ -1,4 +1,5 @@
 import pandas as pd
+import time
 
 def excel_sheet_to_csv(excel_file, sheet_name, output_csv):
     """
@@ -22,5 +23,11 @@ if __name__ == "__main__":
     excel_file = "input_file_large.xlsx"  # Input Excel file
     sheet_name = "Sheet1"        # Sheet to convert
     output_csv = "panda.csv"     # Output CSV file
+
+    time_start = time.time()
+    print("<処理開始>")
     
     excel_sheet_to_csv(excel_file, sheet_name, output_csv)
+
+    time_end = time.time() - time_start
+    print("<処理時間>", time_end)
