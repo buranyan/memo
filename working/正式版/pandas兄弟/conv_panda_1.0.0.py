@@ -1,3 +1,4 @@
+# 2025/2/22 ver1.0.0
 import pandas as pd
 import time
 
@@ -11,14 +12,6 @@ def excel_sheet_to_csv(excel_file, sheet_name, output_csv):
     try:
         # Load the specified sheet into a DataFrame
         df = pd.read_excel(excel_file, sheet_name=sheet_name, engine='openpyxl')
-<<<<<<< Updated upstream:working/正式版/pandas兄弟/conv_panda_1.0.0.py
-=======
-        print(type(df.iloc[0,0]))
-        print(type(df.iloc[0,1]))
-        print(type(df.iloc[0,2]))
-        print(type(df.iloc[0,3]))
-        print(type(df.iloc[0,9]))
->>>>>>> Stashed changes:working/panda.py
         # Save as CSV
         df.to_csv(output_csv, index=False, encoding='utf-8-sig')
         print(f"Sheet '{sheet_name}' has been successfully saved as '{output_csv}'.")
