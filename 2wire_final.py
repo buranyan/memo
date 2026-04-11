@@ -605,10 +605,10 @@ def print_convergence_summary(rows):
 
 def main():
     # Geometry / material
-    r1 = 0.50e-3   # [m]
-    d = 2.00e-3    # [m]
-    r2 = 2.00e-3   # [m]
-    eps_r = 2.20
+    r1 = 0.55e-3   # [m]
+    d = 2.20e-3    # [m]
+    r2 = 2.45e-3   # [m]
+    eps_r = 2.30
 
     # Single-grid result
     nx_single = 301
