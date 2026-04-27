@@ -1,0 +1,317 @@
+* ================================================================
+* MIL-STD-461C CE03 input-side equivalent circuit + EMI filter + PFC model
+* Annotated version for LTspice import.
+*
+* Purpose:
+*   - Reproduce the CE03 input-side current path at design/debug level.
+*   - Keep correspondence among:
+*       Fig.2 / Fig.4 / recommended initial specifications / this .cir file.
+*   - Provide a clear replacement zone for swapping the simplified PFC model
+*     with a detailed bridge + PFC simulation model.
+*
+* Important:
+*   - This model is a design/debug model. Final compliance must follow the
+*     approved test plan and measurement procedure.
+*   - In this file, element names are the canonical names used in the memo v4.
+*   - Numeric values should be changed through .param values whenever possible.
+*
+* Canonical naming rule:
+*   Source          : VACL / VAC_RMS / FAC
+*   Feedthrough C   : CftL, CftN / CFT / RFT_ESR / LFT_ESL
+*   1 m lead R/L    : RlineL, LlineL, RlineN, LlineN / RLINE / LLINE
+*   Lead parasitics : ClineLN, ClineLCH, ClineNCH / C_LN / C_L_CH / C_N_CH
+*   Current probes  : VCP_L, VCP_N
+*   CM choke        : LcmL, LcmN, Kcm / LCM / KCM
+*   DM inductor     : LdmL, LdmN / LDM
+*   X caps          : Cx1, Cx2 / CX1 / CX2
+*   Damping branch  : Rdamp, Cdamp / R_DAMP / C_DAMP
+*   Y caps          : CyL, CyN / CY
+*   PFC eq. load    : Rpfc / R_PFC_EQ
+*   PFC DM source   : B_IDM / IDM1 / IDM3 / FSW
+*   PFC CM source   : B_ICM_L, B_ICM_N / ICM1 / ICM3 / FSW
+*   PFC parasitic C : Cswch / CP_SW_CH
+*   Chassis bond    : Rbond, Lbond / RBOND / LBOND
+* ================================================================
+
+* ================================================================
+* BLOCK 0: Global simulation parameters
+* Corresponds to:
+*   - Initial specification table: 電源, PFC等価ノイズ源, シミュレーション条件
+*   - Fig.4: AC source and PFC equivalent source labels
+* ================================================================
+.param VAC_RMS=115
+.param FAC=400
+.param VPK={sqrt(2)*VAC_RMS}
+.param FSW=200k
+.param TSTOP=10m
+.param TSTART=8m
+.param TMAX=20n
+
+* ================================================================
+* BLOCK 1: MIL-STD-461C CE03 equivalent source/termination parameters
+* Corresponds to:
+*   - Fig.2: CE03入力側等価回路
+*   - Fig.4: CE03 source / feedthrough / 1 m line
+* ================================================================
+.param RLINE=20m
+.param LLINE=1u
+.param CFT=10u
+.param RFT_ESR=20m
+.param LFT_ESL=10n
+.param C_LN=50p
+.param C_L_CH=50p
+.param C_N_CH=50p
+.param RBOND=1m
+.param LBOND=20n
+
+* ================================================================
+* BLOCK 2: EMI filter initial values
+* Corresponds to:
+*   - Initial specification table: EMIフィルタ初期値
+*   - Fig.4: EMI filter block
+* ================================================================
+.param LCM=2m
+.param KCM=0.999
+.param LDM=10u
+.param CX1=100n
+.param CX2=220n
+.param R_DAMP=4.7
+.param C_DAMP=100n
+.param CY=2.2n
+.param RDIS=1Meg
+
+* ================================================================
+* BLOCK 3: Simplified PFC conducted-noise equivalent parameters
+* Corresponds to:
+*   - Initial specification table: PFC等価負荷, PFC DM/CMノイズ源, PFC寄生C外部等価
+*   - Fig.4: AC/DC PFC and Cswch
+*
+* Replacement note:
+*   When a detailed PFC model is inserted, this block may remain as .param
+*   definitions, but the active simplified source elements in BLOCK 9 should
+*   be commented out or deleted to avoid double-counting noise.
+* ================================================================
+.param IDM1=10m
+.param IDM3=3m
+.param ICM1=3m
+.param ICM3=1m
+.param CP_SW_CH=50p
+.param R_PFC_EQ=2k
+
+* ================================================================
+* BLOCK 4: Aircraft AC source
+* Canonical element:
+*   VACL
+* Interface nodes:
+*   srcL, srcN  : ideal source terminals
+*   sL0, sN0    : source/termination side nodes after source resistance
+*
+* Replace this block for split-phase, three-phase, variable frequency,
+* or source impedance models.
+* ================================================================
+VACL srcL srcN SINE(0 {VPK} {FAC})
+RsrcL srcL sL0 50m
+RsrcN srcN sN0 50m
+
+* ================================================================
+* BLOCK 5: 10 uF feedthrough capacitors to ground plane
+* Canonical elements:
+*   CftL, CftN
+* Associated parasitics:
+*   RftL, LftL, RftN, LftN
+*
+* Electrical meaning:
+*   These create the low-impedance CE03 input-side termination to chassis/
+*   ground plane. In Fig.2 and Fig.4, the bottom of CftL/CftN must be
+*   connected to chassis.
+* ================================================================
+RftL sL0 ftL1 {RFT_ESR}
+LftL ftL1 ftL2 {LFT_ESL}
+CftL ftL2 chassis {CFT}
+
+RftN sN0 ftN1 {RFT_ESR}
+LftN ftN1 ftN2 {LFT_ESL}
+CftN ftN2 chassis {CFT}
+
+* ================================================================
+* BLOCK 6: 1 m parallel input leads and cable parasitic capacitances
+* Canonical elements:
+*   RlineL, LlineL, RlineN, LlineN
+*   ClineLN, ClineLCH, ClineNCH
+*
+* Interface nodes:
+*   sL0/sN0 : source termination side
+*   l2/n2   : current-probe upstream side / EUT input harness end
+* ================================================================
+RlineL sL0 l1 {RLINE}
+LlineL l1 l2 {LLINE}
+
+RlineN sN0 n1 {RLINE}
+LlineN n1 n2 {LLINE}
+
+ClineLN  l2 n2      {C_LN}
+ClineLCH l2 chassis {C_L_CH}
+ClineNCH n2 chassis {C_N_CH}
+
+* ================================================================
+* BLOCK 7: Chassis bonding impedance
+* Canonical elements:
+*   Rbond, Lbond
+*
+* Electrical meaning:
+*   Keeps the chassis node explicit instead of shorting it ideally to node 0.
+*   This is useful when observing common-mode current paths. Adjust RBOND/LBOND
+*   if the mechanical bonding impedance is known.
+* ================================================================
+Rbond chassis ch0 {RBOND}
+Lbond ch0 0 {LBOND}
+
+* ================================================================
+* BLOCK 8: Current-probe substitutes
+* Canonical elements:
+*   VCP_L, VCP_N
+*
+* How to use:
+*   - Plot I(VCP_L) and I(VCP_N).
+*   - Apply FFT after steady state.
+*   - Convert to dBuA:
+*       20*log10(abs(I(VCP_L))/1u)
+*       20*log10(abs(I(VCP_N))/1u)
+*
+* Interface nodes:
+*   l2/n2 : upstream side
+*   inL/inN : EMI filter input side
+* ================================================================
+VCP_L l2 inL 0
+VCP_N n2 inN 0
+
+* ================================================================
+* BLOCK 9: EMI input filter
+* Canonical elements:
+*   LcmL, LcmN, Kcm
+*   Cx1, Rdis1
+*   LdmL, LdmN
+*   Rdamp, Cdamp
+*   Cx2, Rdis2
+*   CyL, CyN
+*
+* Interface nodes:
+*   inL/inN : filter input
+*   fL2/fN2 : filter output and PFC input
+*
+* Replacement note:
+*   Keep this block when replacing the simplified PFC model.  Only replace
+*   BLOCK 10 unless you also want to change the EMI filter topology.
+* ================================================================
+
+* Common-mode choke. KCM close to 1 gives finite leakage inductance.
+LcmL inL fL1 {LCM}
+LcmN inN fN1 {LCM}
+Kcm LcmL LcmN {KCM}
+
+* X capacitor and discharge resistor near line side.
+Cx1   fL1 fN1 {CX1}
+Rdis1 fL1 fN1 {RDIS}
+
+* Differential-mode series inductance.
+LdmL fL1 fL2 {LDM}
+LdmN fN1 fN2 {LDM}
+
+* Damped X branch for filter resonance suppression.
+Rdamp fL2 ndamp {R_DAMP}
+Cdamp ndamp fN2 {C_DAMP}
+
+* Main X capacitor near converter side.
+Cx2   fL2 fN2 {CX2}
+Rdis2 fL2 fN2 {RDIS}
+
+* Y capacitors to chassis. Check leakage current and insulation requirements.
+CyL fL2 chassis {CY}
+CyN fN2 chassis {CY}
+
+* ================================================================
+* BLOCK 10: Simplified PFC equivalent model / replacement zone
+* Canonical active elements:
+*   Rpfc, B_IDM, B_ICM_L, B_ICM_N, VSW, Cswch
+*
+* This block is intentionally simple:
+*   - Rpfc gives a rough input load.
+*   - B_IDM injects differential-mode switching ripple current.
+*   - B_ICM_L and B_ICM_N inject common-mode current to chassis.
+*   - VSW and Cswch represent a high-dv/dt PFC node capacitively coupled
+*     to chassis.
+*
+* PFC replacement procedure:
+*   1. Comment out or delete Rpfc, B_IDM, B_ICM_L, B_ICM_N, VSW, Cswch.
+*   2. Insert your detailed bridge + PFC model between fL2 and fN2.
+*   3. Connect the detailed model chassis/reference parasitics to node "chassis".
+*   4. If the detailed model already includes switch-node-to-chassis capacitance,
+*      do not also keep Cswch.  Avoid double-counting CP_SW_CH.
+*   5. Keep VCP_L/VCP_N and BLOCKS 4-9 unchanged for CE03 input-side evaluation.
+* ================================================================
+* >>> PFC_REPLACEMENT_ZONE_BEGIN
+
+* Equivalent input load.
+Rpfc fL2 fN2 {R_PFC_EQ}
+
+* Differential-mode ripple current source.
+B_IDM fL2 fN2 I={IDM1*sin(2*pi*FSW*time)+IDM3*sin(2*pi*3*FSW*time)}
+
+* Common-mode current injection from both conductors to chassis.
+B_ICM_L fL2 chassis I={0.5*(ICM1*sin(2*pi*FSW*time)+ICM3*sin(2*pi*3*FSW*time))}
+B_ICM_N fN2 chassis I={0.5*(ICM1*sin(2*pi*FSW*time)+ICM3*sin(2*pi*3*FSW*time))}
+
+* PFC寄生C 外部等価 / External equivalent PFC parasitic capacitance.
+* VSW is an artificial high-dv/dt node for early-stage CM current estimation.
+VSW sw 0 PULSE(0 400 0 20n 20n {0.45/FSW} {1/FSW})
+Cswch sw chassis {CP_SW_CH}
+
+* <<< PFC_REPLACEMENT_ZONE_END
+* ================================================================
+
+* ================================================================
+* BLOCK 11: Detailed PFC replacement templates (commented examples)
+*
+* Template A: detailed PFC subcircuit with L/N/chassis ports
+*   .subckt PFC_DETAIL L N CH PARAMS: ...
+*     ... bridge + boost PFC + controller ...
+*     ... connect parasitic capacitances to CH ...
+*   .ends PFC_DETAIL
+*
+*   Replace BLOCK 10 with:
+*   X_PFC fL2 fN2 chassis PFC_DETAIL PARAMS: ...
+*
+* Template B: detailed model exposes switch node SW
+*   X_PFC fL2 fN2 chassis sw PFC_DETAIL_WITH_SW PARAMS: ...
+*   Cswch sw chassis {CP_SW_CH}
+*
+*   Use this only if the detailed model does not already contain the equivalent
+*   switch-node-to-chassis capacitance.
+*
+* Template C: keep simplified PFC but tune measured noise
+*   Keep Rpfc/B_IDM/B_ICM_L/B_ICM_N/VSW/Cswch and tune:
+*     IDM1, IDM3, ICM1, ICM3, CP_SW_CH, FSW, R_PFC_EQ
+*   to match early bench current-probe measurements.
+* ================================================================
+
+* ================================================================
+* BLOCK 12: Simulation commands and CE03 current readout
+*
+* Waveform viewer expressions:
+*   Line dBuA   = 20*log10(abs(I(VCP_L))/1u)
+*   Return dBuA = 20*log10(abs(I(VCP_N))/1u)
+*
+* Optional mode split approximations:
+*   DM current approx = (I(VCP_L)-I(VCP_N))/2
+*   CM current approx =  I(VCP_L)+I(VCP_N)
+*
+* Notes:
+*   - Probe polarity affects sign. Confirm sign convention before CM/DM use.
+*   - Use TSTART after startup transient to FFT steady-state waveform.
+*   - TMAX must be small enough to capture switching edges and high-frequency
+*     content of interest.
+* ================================================================
+.tran 0 {TSTOP} {TSTART} {TMAX}
+.options plotwinsize=0 reltol=0.003 abstol=1n vntol=1u
+.backanno
+.end

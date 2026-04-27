@@ -1,0 +1,48 @@
+* ---------------------------------------------------------------------------
+* ce03_lisn_subcircuits_v3.lib
+* LISN comparison subcircuits for CE03 input equivalent circuit memo v5
+*
+* File alignment (v3):
+*   - Memo : mil_std_461c_ce03_input_equivalent_circuit_memo_ja_v5.docx
+*   - Proc : pfc_detailed_model_replacement_procedure_ja_v3.docx
+*   - .cir : ce03_ltspice_equivalent_input_filter_pfc_v5_annotated.cir
+*
+* Functional note:
+*   - This library contains only optional LISN comparison subcircuits.
+*   - The CE03 main equivalent input circuit, EMI filter, PFC simplified model,
+*     and PFC parasitic capacitance external equivalent are implemented in the
+*     main .cir file listed above.
+*   - The LISN library itself did not require an electrical change; only the
+*     header references and the version tag are updated for traceability.
+*
+* Usage in LTspice:
+*   .include ce03_lisn_subcircuits_v3.lib
+*   X_LISN_L sL0 lisnL_eut lisnL_meas chassis LISN_5UH
+*   X_LISN_N sN0 lisnN_eut lisnN_meas chassis LISN_5UH
+*   (LISN comparison runs are OPTIONAL and not part of CE03 evaluation.)
+* ---------------------------------------------------------------------------
+
+* ================================================================
+* Optional LISN subcircuits for comparison studies, not the main 461C CE03 model.
+* ================================================================
+
+* 5 uH LISN simplified, CISPR25/DO-160/MIL comparison use.
+* Pins: SRC EUT MEAS CHASSIS
+.subckt LISN_5UH SRC EUT MEAS CHASSIS params: LLISN=5u R_L=20m C_SRC=1u C_COUP=100n RMEAS=50 RLEAK=1Meg
+L1    SRC EUT     {LLISN} Rser={R_L}
+Csrc  SRC CHASSIS {C_SRC}
+Ccoup EUT MEAS    {C_COUP}
+Rmeas MEAS CHASSIS {RMEAS}
+Rleak MEAS CHASSIS {RLEAK}
+.ends LISN_5UH
+
+* 50 uH LISN simplified, CE102/CISPR comparison use.
+* Pins: SRC EUT MEAS CHASSIS
+.subckt LISN_50UH SRC EUT MEAS CHASSIS params: LLISN=50u R_L=50m C_SRC=8u C_COUP=250n RMEAS=50 R5=5 RBLEED=1k
+L1     SRC EUT     {LLISN} Rser={R_L}
+Csrc   SRC CHASSIS {C_SRC}
+Rser5  SRC CHASSIS {R5}
+Ccoup  EUT MEAS    {C_COUP}
+Rmeas  MEAS CHASSIS {RMEAS}
+Rbleed MEAS CHASSIS {RBLEED}
+.ends LISN_50UH
