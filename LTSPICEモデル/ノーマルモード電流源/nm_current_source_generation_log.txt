@@ -1,0 +1,31 @@
+Python script fixed /mnt/data path present: False
+Temp script return code: 0
+Temp generated files: ['nm_current_source_python_current.png', 'nm_current_source_python_model.py', 'nm_current_source_python_phase.png', 'nm_current_source_python_results.csv']
+LTspice comparison max abs error dB: 2.79101186607e-11
+LTspice comparison RMS error dB: 2.30556969366e-12
+Temp stdout:
+Output: nm_current_source_python_results.csv
+Output: nm_current_source_python_current.png
+Output: nm_current_source_python_phase.png
+100 Hz: |I_HOT|=0.987748048 A, |I_RTN|=0.987748048 A, |I_NM|=0.987748048 A, I_NM=119.892924 dBµA
+398.107 Hz: |I_HOT|=0.989456761 A, |I_RTN|=0.989456761 A, |I_NM|=0.989456761 A, I_NM=119.907936 dBµA
+1000 Hz: |I_HOT|=0.999214456 A, |I_RTN|=0.999214456 A, |I_NM|=0.999214456 A, I_NM=119.993174 dBµA
+10000 Hz: |I_HOT|=1.67500017 A, |I_RTN|=1.67500017 A, |I_NM|=1.67500017 A, I_NM=124.480297 dBµA
+100000 Hz: |I_HOT|=0.00328739749 A, |I_RTN|=0.00328739749 A, |I_NM|=0.00328739749 A, I_NM=70.337044 dBµA
+1e+06 Hz: |I_HOT|=1.3842789e-07 A, |I_RTN|=1.3842789e-07 A, |I_NM|=1.3842789e-07 A, I_NM=-17.175528 dBµA
+1e+07 Hz: |I_HOT|=3.65224162e-11 A, |I_RTN|=3.65224162e-11 A, |I_NM|=3.65224162e-11 A, I_NM=-88.748810 dBµA
+1e+08 Hz: |I_HOT|=9.5423537e-07 A, |I_RTN|=9.5423537e-07 A, |I_NM|=9.5423537e-07 A, I_NM=-0.406890 dBµA
+
+Temp stderr:
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+Matplotlib is building the font cache; this may take a moment.
+

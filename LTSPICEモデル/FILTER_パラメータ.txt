@@ -1,0 +1,49 @@
+VS: AC115Vrms, 400Hz, ROUT=0 or 50Ω
+(試験系AC電源)
+
+LINE_PS_H: L=1uH, DCR=20mΩ, C_CHA=50pF, C_LINE=50pF
+LINE_PS_R: L=1uH, DCR=20mΩ, C_CHA=50pF, C_LINE=50pF
+(試験系ケーブル、C_CHA=LINE to CHASSIS, C_LINE=LINE_H to LINE_R)
+
+C_THROUGH_H: C=10uF, L=10nF, ESR=20mΩ
+C_THROUGH_R: C=10uF, L=10nF, ESR=20mΩ
+(試験系の貫通コンデンサ)
+
+LINE_INPUT_H: L=1uH, DCR=20mΩ,C_CHA=50pF, C_LINE=50pF
+LINE_INPUT_R: L=1uH, DCR=20mΩ,C_CHA=50pF, C_LINE=50pF
+(試験系ケーブル)
+
+次から入力EMIフィルタ
+１段目ディファレンシャルモードコイル(HOTとRTNにそれぞれ配置)
+LDM1_H: L=68uH, DCR=20mΩ, C_PA=5pF
+LDM1_R: L=68uH, DCR=20mΩ, C_PA=5pF
+
+１段目Xコンデンサ(HOTとRTN間に配置)
+CX1: C=0.47uF, L=10nH, ESR=20mΩ
+
+１段目CRダンパー(Xコンデンサに並列に配置)
+C_DUMP1: C=0.47uF, L=10nH, ESR=20mΩ
+R_DUMP1: R=15Ω
+CR_DUMP1: C_DUMP1 + R_DUMP1
+
+２段目ディファレンシャルモードコイル(HOTとRTNにそれぞれ配置)
+LDM2_H: L=33uH, DCR=20mΩ, C_PA=5pF(巻線容量)
+LDM2_R: L=33uH, DCR=20mΩ, C_PA=5pF(巻線容量)
+
+２段目Xコンデンサ(HOTとRTN間に配置)
+CX2: C=0.47uF, L=10nH, ESR=20mΩ
+
+２段目CRダンパー(Xコンデンサに並列に配置)
+C_DUMP2: C=0.47uF, L=10nH, ESR=20mΩ
+R_DUMP2: R=15Ω
+CR_DUMP2: C_DUMP2 + R_DUMP2
+
+コモンモードチョークコイル
+CMC: L=3mH, DCR=100mΩ, K=0.999(結合係数), C_PA=5pF(巻線容量), C_LINE=10pF(HOTとRTN間容量)
+
+Yコンデンサ(HOT/RTNとCHASSIS間に配置)
+CY_H: C=2.2nF, L=10nH, ESR=20mΩ
+CY_R: C=2.2nF, L=10nH, ESR=20mΩ
+
+負荷(HOTとRTN間に配置)
+DUMMY: R=28.75Ω

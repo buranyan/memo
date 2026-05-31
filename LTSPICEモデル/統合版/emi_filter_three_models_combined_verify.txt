@@ -1,0 +1,32 @@
+Temp test return code: 0
+Generated: ['01_frequency_response.csv', '01_frequency_response.png', '02_cm_current.csv', '02_cm_current.png', '02_cm_current_phase.png', '03_nm_current.csv', '03_nm_current.png', '03_nm_current_phase.png', 'combined_three_models_results.csv']
+stdout:
+Outputs saved in: /tmp/tmpgmby13r6
+  01_frequency_response.csv / .png
+  02_cm_current.csv / .png / _phase.png
+  03_nm_current.csv / .png / _phase.png
+  combined_three_models_results.csv
+
+==== Representative points ====
+freq_Hz, FR_Rs0_dB, FR_Rs50_dB, CM_I_CM_A, CM_I_CM_dBuA, NM_I_NM_A, NM_I_NM_dBuA
+100, -0.107042, -8.817952, 0.999785345, 119.998135, 0.987748048, 119.892924
+398.107, -0.091523, -9.186752, 0.999863975, 119.998818, 0.989456761, 119.907936
+1000, -0.003417, -10.807727, 1.00030981, 120.002691, 0.999214456, 119.993174
+10000, 4.828023, -18.456081, 1.055696, 120.470778, 1.67500017, 124.480297
+100000, -59.475187, -93.886515, 0.229390656, 107.211514, 0.00328739749, 70.337044
+1e+06, -178.999916, -191.213255, 0.00035349179, 50.967587, 1.3842789e-07, -17.175528
+1e+07, -240.884930, -241.513174, 0.00068294212, 56.687678, 3.65224162e-11, -88.748810
+1e+08, -188.337313, -188.343936, 0.00561449493, 74.986214, 9.5423537e-07, -0.406890
+
+stderr:
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+
