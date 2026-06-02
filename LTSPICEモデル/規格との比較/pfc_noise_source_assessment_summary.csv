@@ -1,0 +1,16 @@
+item,value
+fsw_Hz,125000.0
+duty,0.5
+Idm_pp_A,1.0
+Icm_total_pp_A,0.02
+tr_s,5e-08
+dm_worst_harmonic,1
+dm_worst_frequency_Hz,125000.0
+dm_worst_level_dBuA,55.4530534850481
+dm_limit_dBuA,57.59659634213832
+dm_margin_dB,2.1435428570902175
+cm_worst_harmonic,1
+cm_worst_frequency_Hz,125000.0
+cm_worst_level_dBuA,61.667484688939716
+cm_limit_dBuA,57.59659634213832
+cm_margin_dB,-4.0708883468013966

@@ -1,0 +1,44 @@
+* ============================================================
+* PFC DM/CM noise source implementation for LTspice
+* ============================================================
+* Place these sources at the DUMMY/load side of the EMI filter.
+*
+* DM source:
+*   one current source between DUMMY HOT and DUMMY RTN.
+*
+* CM source:
+*   two equal in-phase current sources from HOT/RTN to CHASSIS.
+*
+* Definitions:
+*   I_DM at measurement plane = (I(VPROBE_HOT)-I(VPROBE_RTN))/2
+*   I_CM at measurement plane =  I(VPROBE_HOT)+I(VPROBE_RTN)
+*
+* Recommended transient command example:
+*   .tran 0 2m 1m 5n
+* Then FFT I(VPROBE_HOT), I(VPROBE_RTN), and calculate DM/CM traces.
+
+.param fsw=125k
+.param Tsw={1/fsw}
+.param D=0.5
+.param tr=50n
+.param tf=50n
+
+* --- DM source from Excel initial value ---
+* Idm_pp = 1 A p-p.  Fundamental RMS for D=0.5 is about 0.450 A RMS.
+.param Idm_pp=1
+I_DM LOAD_1 LOAD_2 PULSE({-Idm_pp/2} {Idm_pp/2} 0 {tr} {tf} {D*Tsw} {Tsw})
+
+* --- CM source, current Excel setting ---
+* Icm_total_pp is total CM p-p current, i.e. sum of HOT and RTN source waveforms.
+* Each source is half of the total current.
+.param Icm_total_pp=20m
+I_CM_H LOAD_1 CHASSIS PULSE({-Icm_total_pp/4} {Icm_total_pp/4} 0 {tr} {tf} {D*Tsw} {Tsw})
+I_CM_R LOAD_2 CHASSIS PULSE({-Icm_total_pp/4} {Icm_total_pp/4} 0 {tr} {tf} {D*Tsw} {Tsw})
+
+* --- Optional: match the 2*pi*fsw*Cpar*Vbus sinusoidal-equivalent estimate ---
+* From Cpar=8e-11 F and Vbus=325 V:
+* Icm_sine_pk = 2*pi*fsw*Cpar*Vbus = 0.0204204 A peak
+* For a 50% rectangular total CM current source, set:
+* Icm_total_pp = (pi/2)*Icm_sine_pk = 0.0320762 A p-p
+*
+* .param Icm_total_pp=0.0320762143

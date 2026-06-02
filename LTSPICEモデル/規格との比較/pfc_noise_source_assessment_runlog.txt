@@ -1,0 +1,51 @@
+contains /mnt/data in script: False
+sandbox return code: 0
+sandbox stdout:
+Outputs:
+  /mnt/data/pfc_noise_source_assessment.csv
+  /mnt/data/pfc_noise_source_assessment_summary.csv
+  /mnt/data/pfc_noise_source_assessment.png
+  /mnt/data/ltspice_pfc_noise_sources_snippet.txt
+
+Worst margins using the approximate CE03 limit:
+DM: harmonic 1, f=125000 Hz, level=55.453 dBµA, limit=57.597 dBµA, margin=2.144 dB
+CM: harmonic 1, f=125000 Hz, level=61.667 dBµA, limit=57.597 dBµA, margin=-4.071 dB
+
+sandbox stderr:
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+
+
+temp return code: 0
+temp generated files: ['ltspice_pfc_noise_sources_snippet.txt', 'pfc_noise_source_assessment.csv', 'pfc_noise_source_assessment.png', 'pfc_noise_source_assessment_summary.csv']
+temp stdout:
+Outputs:
+  /tmp/tmpjfrvtd8w/pfc_noise_source_assessment.csv
+  /tmp/tmpjfrvtd8w/pfc_noise_source_assessment_summary.csv
+  /tmp/tmpjfrvtd8w/pfc_noise_source_assessment.png
+  /tmp/tmpjfrvtd8w/ltspice_pfc_noise_sources_snippet.txt
+
+Worst margins using the approximate CE03 limit:
+DM: harmonic 1, f=125000 Hz, level=55.453 dBµA, limit=57.597 dBµA, margin=2.144 dB
+CM: harmonic 1, f=125000 Hz, level=61.667 dBµA, limit=57.597 dBµA, margin=-4.071 dB
+
+temp stderr:
+Spreadsheet runtime warmup failed during python startup
+Traceback (most recent call last):
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/patches/warm_spreadsheet_runtime_on_startup.py", line 26, in warm_spreadsheet_runtime_on_startup
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 785, in warm_spreadsheet_runtime
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 720, in _warm_feature_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/spreadsheet_warmup.py", line 704, in _warm_collaboration_flows
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/generated/interface/models.py", line 48821, in hydrate_crdt_from_proto
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/remote.py", line 747, in __call__
+  File "/tmp/tmp.9eeVjt35CN/artifact_tool_v2-2.7.5/artifact_tool/rpc/client.py", line 150, in call
+artifact_tool.rpc.client.RemoteError: hydrateCrdtFromProto requires an empty collaborative document.
+
