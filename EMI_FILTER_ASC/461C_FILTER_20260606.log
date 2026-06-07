@@ -1,0 +1,17 @@
+LTspice 26.0.1 for Windows
+Circuit: C:\Users\9108h\Documents\SHARE\EMI_FILTER_ASC\461C_FILTER_20260606.net
+Start Time: Sun Jun  7 21:03:39 2026
+solver = Normal
+Maximum thread count: 16
+tnom = 27
+temp = 27
+method = trap
+WARNING: Node n044 is floating.
+
+.OP point found by inspection.
+.OP point found by inspection.
+Total elapsed time: 0.213 seconds.
+
+Files loaded:
+C:\Users\9108h\Documents\SHARE\EMI_FILTER_ASC\461C_FILTER_20260606.net
+
