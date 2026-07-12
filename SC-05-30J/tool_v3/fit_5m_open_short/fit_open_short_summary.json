@@ -1,0 +1,56 @@
+{
+  "assumption": "開放・短絡は同じ5 mケーブル、同じ治具、同じ校正条件。開放端は理想開放、短絡端R/Lをフィット。",
+  "fit_ranges_hz": {
+    "open": [
+      50350.38356904542,
+      25000000.0
+    ],
+    "short": [
+      1000.0,
+      25000000.0
+    ]
+  },
+  "fit_points": {
+    "open": 614,
+    "short": 1001
+  },
+  "shared_fitted_parameters": {
+    "differential_z0_ohm": 74.96786366408445,
+    "differential_velocity_factor": 0.5475798441446333,
+    "differential_extra_loss_np_per_sqrt_mhz": 0.00033667211877921145,
+    "differential_tan_delta_effective": 0.08449982519177654,
+    "fixture_series_resistance_ohm": 2.560456202749717e-13,
+    "fixture_series_inductance_nH": 33.84260780230465
+  },
+  "short_end_fitted_parameters": {
+    "differential_short_resistance_ohm": 0.13510189711528384,
+    "differential_short_inductance_nH": 12.540612072064816
+  },
+  "open_end_capacitance_pF": 0.0,
+  "derived_line_parameters": {
+    "line_capacitance_pF_per_m": 81.25623738037154,
+    "line_inductance_nH_per_m": 456.67472752053504,
+    "one_way_delay_ns": 30.45803262894088,
+    "quarter_wave_frequency_MHz": 8.208015371368827,
+    "half_wave_frequency_MHz": 16.416030742737654,
+    "dc_cable_loop_resistance_ohm": 0.378
+  },
+  "open_fit_metrics": {
+    "magnitude_rmse_db": 0.8888470464620064,
+    "phase_rmse_deg": 7.877630054825388,
+    "maximum_absolute_magnitude_error_db": 1.7947610485310945,
+    "maximum_absolute_phase_error_deg": 25.285820345476438
+  },
+  "short_fit_metrics": {
+    "magnitude_rmse_db": 1.2954018490801664,
+    "phase_rmse_deg": 6.170930362951903,
+    "maximum_absolute_magnitude_error_db": 2.7659331425636244,
+    "maximum_absolute_phase_error_deg": 35.61819199956162
+  },
+  "optimizer": {
+    "cost": 0.02335396375921718,
+    "optimality": 7.031115160348143e-07,
+    "function_evaluations": 9
+  },
+  "note": "tanδとsqrt(f)損失はケーブル単体だけでなく、測定治具・編組・補正残差を含む有効損失値です。"
+}
