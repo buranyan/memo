@@ -1,0 +1,5 @@
+文献リスト
+NASAの文献　MILTIKILOWATT TRANSMITTER STUDY FOR SPACE COMMUNICATIONS SATELLITES
+　　　　　　https://ntrs.nasa.gov/api/citations/19700019225/downloads/19700019225.pdf
+SMCカタログ　7-9-2-p0449-0465-KFG2.pdf
+フジキンカタログ　newv_new_v_collection_01.pdf
